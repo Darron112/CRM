@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MainDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="MainDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ClientTables" EntityType="MainDBModel.ClientTable" />
+    <EntitySet Name="UserAccounts" EntityType="MainDBModel.UserAccount" />
+    <EntitySet Name="RequestTables" EntityType="MainDBModel.RequestTable" />
+    <EntitySet Name="RequestDetails" EntityType="MainDBModel.RequestDetail" />
+    <EntitySet Name="StatusTables" EntityType="MainDBModel.StatusTable" />
+    <EntitySet Name="TypeTables" EntityType="MainDBModel.TypeTable" />
+    <AssociationSet Name="FK_OrderDetails_OrderMaster" Association="MainDBModel.FK_OrderDetails_OrderMaster">
+      <End Role="RequestTable" EntitySet="RequestTables" />
+      <End Role="RequestDetail" EntitySet="RequestDetails" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ClientTable">
+    <Key>
+      <PropertyRef Name="ClientID" />
+    </Key>
+    <Property Name="ClientID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nip" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="UserAccount">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ConfirmPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Roles" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="RequestTable">
+    <Key>
+      <PropertyRef Name="RequestID" />
+    </Key>
+    <Property Name="RequestID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RequestDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Solution" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="RequestTime" Type="Int32" />
+    <NavigationProperty Name="RequestDetails" Relationship="MainDBModel.FK_OrderDetails_OrderMaster" FromRole="RequestTable" ToRole="RequestDetail" />
+    <Property Name="ClientID" Type="Int32" />
+    <Property Name="TypeID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="RequestDetail">
+    <Key>
+      <PropertyRef Name="RequestDetailsID" />
+    </Key>
+    <Property Name="RequestDetailsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RequestID" Type="Int32" Nullable="false" />
+    <Property Name="StatusID" Type="Int32" />
+    <Property Name="UserID" Type="Int32" />
+    <NavigationProperty Name="RequestTable" Relationship="MainDBModel.FK_OrderDetails_OrderMaster" FromRole="RequestDetail" ToRole="RequestTable" />
+    <Property Name="StageNumber" Type="Int32" />
+    <Property Name="StageDate" Type="DateTime" Precision="3" />
+    <Property Name="StageDesc" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="StageTime" Type="Int32" />
+  </EntityType>
+  <EntityType Name="StatusTable">
+    <Key>
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="StatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StatusName" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="TypeTable">
+    <Key>
+      <PropertyRef Name="TypeID" />
+    </Key>
+    <Property Name="TypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_OrderDetails_OrderMaster">
+    <End Type="MainDBModel.RequestTable" Role="RequestTable" Multiplicity="1" />
+    <End Type="MainDBModel.RequestDetail" Role="RequestDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RequestTable">
+        <PropertyRef Name="RequestID" />
+      </Principal>
+      <Dependent Role="RequestDetail">
+        <PropertyRef Name="RequestID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

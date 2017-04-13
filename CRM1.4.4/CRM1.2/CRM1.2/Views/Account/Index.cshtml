@@ -1,0 +1,86 @@
+﻿@model List<CRM1._2.Models.UserAccount>
+
+@{
+    var grid = new WebGrid(canPage: true, rowsPerPage: 10);
+    grid.Bind(source: Model, rowCount: ViewBag.TotalRows, autoSortAndPage: false);
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Panel użytkownikow</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h2>Lista użytkownikow</h2>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a href="#" class="navbar-brand">Wyszukaj</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    @using (Html.BeginForm("index", "Account", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
+                    {
+                        <div class="form-group">
+                            <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="szukaj.." />
+                        </div>
+                        <button type="submit" value="Search" class="btn btn-success">Szukaj</button>
+                        <a class="popup btn btn-primary" href="/Account/Register/" style="margin-bottom:20px; margin-top:20px;">Rejestracja nowego uzytkownika</a>
+                    }
+                </div>
+            </div>
+        </nav>
+        <div>
+            @grid.Table(
+                tableStyle: "table table-responsive table-bordered",
+                columns: grid.Columns(
+                    grid.Column(columnName: "FirstName", header: "Imie"),
+                    grid.Column(columnName: "LastName", header: "Nazwisko"),
+                    grid.Column(columnName: "Email", header: "Adres E-mail"),
+                    grid.Column(columnName: "UserName", header: "Nazwa uzytkownika"),
+                    grid.Column(columnName: "Roles", header: "Rola"),
+                    grid.Column(header: "Edycja", format: item => new HtmlString(Html.ActionLink((string)item.UserID.ToString("Edytuj"), "register", new { @id = item.UserID }).ToString())),
+                    grid.Column(header: "Usuwanie", format: item => new HtmlString(Html.ActionLink((string)item.UserID.ToString("Usun"), "delete", new { @id = item.UserID }).ToString()))
+                )
+            )
+
+            <div class="row">
+                <div class="col-sm-6">
+                    @grid.PagerList(mode: WebGridPagerModes.All, paginationStyle: "pagination pagination-small pagination-right")
+                </div>
+            </div>
+
+            @Html.Hidden("dir", grid.SortDirection)
+            @Html.Hidden("col", grid.SortColumn)
+
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            try {
+                var dir = $('#dir').val();
+                var col = $('#col').val();
+                var header = $("th a[href*=" + col + "]");
+                if (dir == "Ascending") {
+                    header.text(header.text() + "  ▲")
+                }
+                if (dir == "Descending") {
+                    header.text(header.text() + "  ▼");
+                }
+
+            } catch (e) {
+
+            }
+        })
+    </script>
+</body>
+</html>
+<div>
+    @Html.ActionLink("Strona główna", "Index", "Home")
+</div>
+

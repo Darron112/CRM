@@ -1,0 +1,35 @@
+﻿@model CRM1._2.Models.ClientTable
+
+<h2>Usuwanie</h2>
+@using (Html.BeginForm("delete", "Client", FormMethod.Post, new { id = "popupForm" }))
+{
+    @Html.HiddenFor(a => a.ClientID)
+    <div class="form-group">
+        <label>Nip</label>
+        <p>@Model.Nip</p>
+    </div>
+
+    <div class="form-group">
+        <label>Nazwa firmy</label>
+        <p>@Model.CompanyName</p>
+    </div>
+
+    <div class="form-group">
+        <label>Adres firmy</label>
+        <p>@Model.Address</p>
+    </div>
+
+    <div class="form-group">
+        <label>Telefon</label>
+        <p>@Model.Phone</p>
+    </div>
+
+    <div class="form-group">
+        <label>Adres e-mail</label>
+        <p>@Model.Email</p>
+    </div>
+
+    <div>
+        <input type="submit" value="Usuń" />
+    </div>
+}

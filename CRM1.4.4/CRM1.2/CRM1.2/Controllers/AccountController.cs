@@ -110,23 +110,26 @@ namespace CRM1._2.Controllers
                             s.FirstName = account.FirstName;
                             s.LastName = account.LastName;
                             s.Email = account.Email;
+                            s.UserName = account.UserName;
+                            s.Password = account.Password;
+                            s.ConfirmPassword = account.ConfirmPassword;
                             s.Roles = account.Roles;
                         }
                     }
                     else
                     {
-                        db.UserAccounts.Add(account);                      
+                        db.UserAccounts.Add(account);
                     }
 
                     db.SaveChanges();
                     status = true;
 
-                    //ModelState.Clear();
-                    //ViewBag.Message = account.FirstName + " " + account.LastName + " rejestracja zakonczona sukcesem.";
+                    ModelState.Clear();
+                    ViewBag.Message = account.FirstName + " " + account.LastName + " rejestracja zakonczona sukcesem.";
                 }
             }
             new JsonResult { Data = new { status = status } };
-            return RedirectToAction("index", "Account");
+            return View();
         }
 
         [HttpGet]

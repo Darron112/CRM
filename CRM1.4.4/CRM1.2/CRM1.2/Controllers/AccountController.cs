@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace CRM1._2.Controllers
 {
-    [AllowAnonymous]
+    
     public class AccountController : Controller
     {
 

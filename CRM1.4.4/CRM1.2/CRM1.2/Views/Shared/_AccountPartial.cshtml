@@ -21,7 +21,11 @@
     @Html.ActionLink(" CRM", "Index", "Home", new { area = "" }, new { @class = "btn btn-primary glyphicon glyphicon-home " })
     @Html.ActionLink("Panel zgłoszeń", "Index", "Request", new { area = "" }, new { @class = "btn navbar-btn btn-lg" })
     @Html.ActionLink("Klienci", "Index", "Client", new { area = "" }, new { @class = "btn navbar-btn btn-lg" })
-    @Html.ActionLink("Użytkownicy", "Index", "Account", new { area = "" }, new { @class = "btn navbar-btn btn-lg" })
+
+    @if (this.User.IsInRole("A"))
+    {
+         @Html.ActionLink("Użytkownicy", "Index", "Account", new { area = "" }, new { @class = "btn navbar-btn btn-lg" })
+    }
     </ul>
 
     @*<ul class="nav navbar-nav navbar-right">

@@ -5,10 +5,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Linq.Dynamic;
-
+using System.Web.Security;
 
 namespace CRM1._2.Controllers
 {
+    [Authorize(Roles = "A, U")]
     public class RequestController : Controller
     {
         public ActionResult Index(int page = 1, string sort = "RequestID", string sortdir = "asc", string search = "")
@@ -188,7 +189,7 @@ namespace CRM1._2.Controllers
         public ActionResult LogOff()
         {
 
-            Session.Clear();
+            FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Account");
 
         }

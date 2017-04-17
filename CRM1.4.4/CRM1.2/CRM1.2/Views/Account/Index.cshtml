@@ -41,7 +41,7 @@
                     grid.Column(columnName: "LastName", header: "Nazwisko"),
                     grid.Column(columnName: "Email", header: "Adres E-mail"),
                     grid.Column(columnName: "UserName", header: "Nazwa uzytkownika"),
-                    grid.Column(columnName: "Roles", header: "Rola"),
+                    grid.Column(columnName: "Roles", header: "Rola"),                   
                     grid.Column(header: "Edycja", format: item => new HtmlString(Html.ActionLink((string)item.UserID.ToString("Edytuj"), "register", new { @id = item.UserID }).ToString())),
                     grid.Column(header: "Usuwanie", format: item => new HtmlString(Html.ActionLink((string)item.UserID.ToString("Usun"), "delete", new { @id = item.UserID }).ToString()))
                 )

@@ -6,7 +6,6 @@
 
 <h2>Rejestracja</h2>
 
-
 @using (Html.BeginForm("register", "Account", FormMethod.Post, new { id = "popupForm" }))
 {
     @Html.AntiForgeryToken()
@@ -20,7 +19,7 @@
         <h4>Konto użytkownika</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @if(ViewBag.Message != null)
+        @if (ViewBag.Message != null)
         {
             <div class="form-group">
                 <div class="=col-md-10">@ViewBag.Message</div>

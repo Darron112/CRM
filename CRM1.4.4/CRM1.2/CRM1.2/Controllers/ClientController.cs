@@ -4,18 +4,20 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CRM1._2.Models;
+using System.Web.Security;
 
 namespace CRM1._2.Controllers
 {
     [Authorize]
     public class ClientController : Controller
     {
-        [Authorize(Roles = "A")]
+        [Authorize(Roles = "A, U")]
         public ActionResult Index()
         {
             return View();
         }
 
+        [Authorize(Roles = "A, U")]
         public ActionResult GetClients()
         {
             using (MainDBEntities mainDB = new MainDBEntities())
@@ -27,9 +29,10 @@ namespace CRM1._2.Controllers
 
         //public JsonResult getClientss(int clientID)
         //{
-            
+
         //}
 
+        [Authorize(Roles = "A")]
         [HttpGet]
         public ActionResult Save(int id)
         {
@@ -40,6 +43,7 @@ namespace CRM1._2.Controllers
             }
         }
 
+        [Authorize(Roles = "A")]
         [HttpPost]
         public ActionResult Save(ClientTable client)
         {
@@ -73,6 +77,7 @@ namespace CRM1._2.Controllers
             return new JsonResult { Data = new { status = status } };
         }
 
+        [Authorize(Roles = "A")]
         [HttpGet]
         public ActionResult Delete(int id)
         {
@@ -90,6 +95,7 @@ namespace CRM1._2.Controllers
             }
         }
 
+        [Authorize(Roles = "A")]
         [HttpPost]
         [ActionName("Delete")]
         public ActionResult DeleteClient(int id)
@@ -113,7 +119,7 @@ namespace CRM1._2.Controllers
         {
             //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             //if (Session["UserName"] == null)
-            Session.Clear();
+            FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Account");
 
         }

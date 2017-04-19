@@ -1,0 +1,14 @@
+﻿@model CRM1._2.Models.TypeTable
+<h2>Usuwanie</h2>
+@using (Html.BeginForm("delete", "Type", FormMethod.Post, new { id = "popupForm" }))
+{
+    @Html.HiddenFor(a => a.TypeID)
+    <div class="form-group">
+        <label>Nazwa rodzaju</label>
+        <p>@Model.TypeName</p>
+    </div>
+
+    <div>
+        <input type="submit" value="Usuń" />
+    </div>
+}

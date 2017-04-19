@@ -271,6 +271,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RequestController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
+    <Compile Include="Controllers\TypeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -354,6 +355,9 @@
     <Content Include="Views\Status\Index.cshtml" />
     <Content Include="Views\Status\Save.cshtml" />
     <Content Include="Views\Status\Delete.cshtml" />
+    <Content Include="Views\Type\Index.cshtml" />
+    <Content Include="Views\Type\Save.cshtml" />
+    <Content Include="Views\Type\Delete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

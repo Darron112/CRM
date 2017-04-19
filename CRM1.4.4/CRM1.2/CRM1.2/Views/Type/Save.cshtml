@@ -1,0 +1,21 @@
+﻿@model CRM1._2.Models.TypeTable
+
+<h2>Zapis</h2>
+@using (Html.BeginForm("save", "Type", FormMethod.Post, new { id = "popupForm" }))
+{
+    if (Model != null && Model.TypeID > 0)
+    {
+        @Html.HiddenFor(a => a.TypeID)
+    }
+
+    <div class="form-group">
+        <label>Nazwa rodzaju</label>
+        @Html.TextBoxFor(a => a.TypeName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.TypeName)
+    </div>
+
+    <div>
+        <input class="btn btn-success" type="submit" value="Zapisz" />
+    </div>
+}
+

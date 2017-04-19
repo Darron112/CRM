@@ -1,0 +1,21 @@
+﻿
+@model CRM1._2.Models.StatusTable
+
+<h2>Zapis</h2>
+@using (Html.BeginForm("save", "Status", FormMethod.Post, new { id = "popupForm" }))
+{
+    if (Model != null && Model.StatusID > 0)
+    {
+        @Html.HiddenFor(a => a.StatusID)
+    }
+
+    <div class="form-group">
+        <label>Nazwa Statusu</label>
+        @Html.TextBoxFor(a => a.StatusName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.StatusName)
+    </div>
+
+    <div>
+        <input class="btn btn-success" type="submit" value="Zapisz" />
+    </div>
+}

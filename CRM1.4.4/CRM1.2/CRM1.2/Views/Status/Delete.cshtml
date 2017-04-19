@@ -1,0 +1,16 @@
+﻿
+@model CRM1._2.Models.StatusTable
+
+<h2>Usuwanie</h2>
+@using (Html.BeginForm("delete", "Status", FormMethod.Post, new { id = "popupForm" }))
+{
+    @Html.HiddenFor(a => a.StatusID)
+    <div class="form-group">
+        <label>Nazwa statusu</label>
+        <p>@Model.StatusName</p>
+    </div>
+
+    <div>
+        <input type="submit" value="Usuń" />
+    </div>
+}

@@ -25,6 +25,7 @@
     @if (this.User.IsInRole("A"))
     {
          @Html.ActionLink("Użytkownicy", "Index", "Account", new { area = "" }, new { @class = "btn navbar-btn btn-lg" })
+         @Html.ActionLink("Statusy", "Index", "Status", new { area = "" }, new { @class = "btn navbar-btn btn-lg" })
     }
     </ul>
 

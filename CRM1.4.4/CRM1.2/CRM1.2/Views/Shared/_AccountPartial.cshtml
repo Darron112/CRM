@@ -8,21 +8,68 @@
         @Html.AntiForgeryToken()
 
         <ul class="nav navbar-nav navbar-right">
-            <li>
+            <li style="color:white">
                 @Html.ActionLink("Witaj " + User.Identity.GetUserName() + "!", "LoggedIn", "Account", routeValues: null, htmlAttributes: new { title = "Account" })
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Wyloguj <span class="glyphicon glyphicon-log-out"></span> 
+            <li><a href="javascript:document.getElementById('logoutForm').submit()"><span class="glyphicon glyphicon-log-out" style="font-size:large"> Wyloguj</span>
                 </a>
             </li>
         </ul>
     }
-    @*<ul class="glyphicon glyphicon-home glyphicon-resize-full"></ul>*@
-    <ul class="nav navbar-nav navbar-left">
+    <div class="nav-side-menu navbar-fixed-top">
+        <div class="brand" style="font-size:large">CRM</div>
+        <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+
+        <div class="menu-list">
+
+            <ul id="menu-content" class="menu-content collapse out">
+
+                <li>
+                    <a href="@Url.Action("Index", "Home")" class="elements">
+                        <i class="glyphicon glyphicon-home"></i> Strona Główna
+                    </a>
+                </li>
+
+                <li>
+                    <a href="@Url.Action("Index", "Request")" class="elements">
+                        <i class="fa fa-globe fa-lg"></i> Panel zgłoszeń
+                    </a>
+                </li>
+
+                <li>
+                    <a href="@Url.Action("Index", "Client")" class="elements">
+                        <i class="fa fa-users fa-lg"></i> Klienci
+                    </a>
+                </li>
+
+                @if (this.User.IsInRole("A"))
+                {
+                <li>
+                    <a href="@Url.Action("Index", "Status")" class="elements">
+                        <i class="fa fa-car fa-lg"></i> Statusy
+                    </a>
+                </li>
+
+                <li>
+                    <a href="@Url.Action("Index", "Type")" class="elements">
+                        <i class="fa fa-bars fa-lg"></i> Rodzaje
+                    </a>
+                </li>
+
+                <li>
+                    <a href="@Url.Action("Index", "Account")" class="elements">
+                        <i class="fa fa-user fa-lg"></i>Użytkownicy
+                    </a>
+                </li>
+                }
+
+            </ul>
+        </div>
+    </div>
+
+    @*<ul class="=nav navbar-nav navbar-right">
         @Html.ActionLink(" CRM", "Index", "Home", new { area = "" }, new { @class = "btn btn-primary glyphicon glyphicon-home " })
         @Html.ActionLink("Panel zgłoszeń", "Index", "Request", new { area = "" }, new { @class = "btn navbar-btn btn-lg" })
-  
-    </ul>
-    <ul class="=nav navbar-nav navbar-right">
         @Html.ActionLink("Klienci", "Index", "Client", new { area = "" }, new { @class = "btn navbar-btn btn-lg" })        
         @if (this.User.IsInRole("A"))
         {
@@ -30,25 +77,35 @@
             @Html.ActionLink("Rodzaje", "Index", "Type", new { area = "" }, new { @class = "btn navbar-btn btn-lg" })
             @Html.ActionLink("Użytkownicy", "Index", "Account", new { area = "" }, new { @class = "btn navbar-btn btn-lg" })
         }
+    </ul>*@
+
+
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a href="@Url.Action("Login", "Account")" class="elements">
+                <span class="glyphicon glyphicon-log-in" style="font-size:large"> Logowanie</span>
+            </a>
+        </li>
     </ul>
+}
 
-        @*<ul class="nav navbar-nav navbar-right">
-                @Html.ActionLink("Użytkownicy", "Index", "Account", new { area = "" }, new { @class = "btn btn-default" })
-                @Html.ActionLink("Wyloguj", "LogOff", "Account", new { area = "" }, new { @class = "btn btn-default" })
-            </ul>*@
 
-        @*<ul class="nav navbar-nav navbar-right">
-                <li><span class="navbar-text" style="color:black">@("Witaj " + @Session["UserName"]) </span></li>
-            </ul>*@
-        }
-        else
-        {
-        <ul class="nav navbar-nav navbar-right">
-            @*@Html.ActionLink("Rejestracja", "Register", "Account", new { area = "" }, new { @class = "btn navbar-btn btn-lg" })*@
-            @Html.ActionLink("Zaloguj", "Login", "Account", new { area = "" }, new { @class = "btn navbar-btn btn-lg" })
-        </ul>
-        }
+@*<ul class="glyphicon glyphicon-home glyphicon-resize-full"></ul>*@
 
+@*<ul class="nav navbar-nav navbar-right">
+        @Html.ActionLink("Użytkownicy", "Index", "Account", new { area = "" }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Wyloguj", "LogOff", "Account", new { area = "" }, new { @class = "btn btn-default" })
+    </ul>*@
+
+@*<ul class="nav navbar-nav navbar-right">
+        <li><span class="navbar-text" style="color:black">@("Witaj " + @Session["UserName"]) </span></li>
+    </ul>*@
+
+
+@*@Html.ActionLink("Rejestracja", "Register", "Account", new { area = "" }, new { @class = "btn navbar-btn btn-lg" })*@
 
         @*<div id="login-header">
                 @if (Request.IsAuthenticated)

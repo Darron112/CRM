@@ -2374,4 +2374,11 @@ if (typeof jQuery === 'undefined') {
     })
   })
 
+  $(document).ready(function () {
+      $(".collapsed").click(function () {
+          $("#products, #service, #new").collapse('hide');
+      });
+  })
+
+
 }(jQuery);

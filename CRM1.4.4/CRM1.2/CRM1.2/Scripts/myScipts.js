@@ -1,15 +1,13 @@
 ﻿var Users = []
-//fetch categories from database
+
 function LoadUser(element) {
     if (Users.length == 0) {
-        //ajax function for fetch data
         $.ajax({
             type: "GET",
             url: '/request/getUser',
             data: { 'UserID': $(element).val() },
             success: function (data) {
                 Users = data;
-                //render catagory
                 renderUser(element);
             },
             error: function (error) {
@@ -33,17 +31,15 @@ function renderUser(element) {
 }
 
 var Status = []
-//fetch categories from database
+
 function LoadStatus(element) {
     if (Status.length == 0) {
-        //ajax function for fetch data
         $.ajax({
             type: "GET",
             url: '/request/getStatus',
             data: { 'StatusID': $(element).val() },
             success: function (data) {
                 Status = data;
-                //render catagory
                 renderStatus(element);
             },
             error: function (error) {
@@ -67,17 +63,15 @@ function renderStatus(element) {
 }
 
 var Client = []
-//fetch categories from database
+
 function LoadClient(element) {
     if (Client.length == 0) {
-        //ajax function for fetch data
         $.ajax({
             type: "GET",
             url: '/request/getClient',
             data: { 'ClientID': $(element).val() },
             success: function (data) {
                 Client = data;
-                //render catagory
                 renderClient(element);
             },
             error: function (error) {
@@ -101,17 +95,15 @@ function renderClient(element) {
 }
 
 var Type = []
-//fetch categories from database
+
 function LoadType(element) {
     if (Type.length == 0) {
-        //ajax function for fetch data
         $.ajax({
             type: "GET",
             url: '/request/getType',
             data: { 'TypeID': $(element).val() },
             success: function (data) {
                 Type = data;
-                //render catagory
                 renderType(element);
             },
             error: function (error) {
@@ -135,9 +127,7 @@ function renderType(element) {
 }
 
 $(document).ready(function () {
-    //Add button click event
     $('#add').click(function () {
-        //validation and add order items
         var isAllValid = true;
         if ($('#user').val() == "0") {
             isAllValid = false;
@@ -169,7 +159,23 @@ $(document).ready(function () {
         }
         else {
             $('#stageTime').siblings('span.error').css('visibility', 'hidden');
-        }        
+        }
+
+        if ($('#stageDate').val().trim() == '') {
+            $('#stageDate').siblings('span.error').css('visibility', 'visible');
+            isAllValid = false;
+        }
+        else {
+            $('#stageDate').siblings('span.error').css('visibility', 'hidden');
+        }
+
+        if ($('#stageDesc').val().trim() == '') {
+            $('#stageDesc').siblings('span.error').css('visibility', 'visible');
+            isAllValid = false;
+        }
+        else {
+            $('#stageDesc').siblings('span.error').css('visibility', 'hidden');
+        }
         
         if (isAllValid) {
             var $newRow = $('#mainrow').clone().removeAttr('id');
@@ -182,14 +188,14 @@ $(document).ready(function () {
             $('#add', $newRow).addClass('remove').val('Remove').removeClass('btn-success').addClass('btn-danger');
 
             //remove id attribute from new clone row
-            $('#user,#status,#stageNumber,#stageTime,#add', $newRow).removeAttr('id');
+            $('#user,#status,#stageNumber,#stageTime, #stageDate,#stageDesc,#add', $newRow).removeAttr('id');
             $('span.error', $newRow).remove();
             //append clone row
             $('#requestdetailsItems').append($newRow);
 
             //clear select data
             $('#user,#status').val('0');
-            $('#stageNumber,#stageTime').val('');
+            $('#stageNumber,#stageTime, #stageDate, #stageDesc').val('');
             $('#requestItemError').empty();
         }
 
@@ -203,23 +209,8 @@ $(document).ready(function () {
     $('#submit').click(function () {
         var isAllValid = true;
 
-        //if (isAllValid) {
-        //    var $newRow = $('#secrow').removeAttr('id');
-        //    $('.client', $newRow).val($('#client').val());
-        //    $('.type', $newRow).val($('#type').val());
 
-        //    //remove id attribute from new clone row
-        //    //$('#submit, #client, #type', $newRow).removeAttr('id');
-        //    //$('span.error', $newRow).remove();
-        //    //append clone row
-        //    //$('#requestdetailsItems').append($newRow);
-
-        //    //clear select data
-        //    //$('#client, #type').val('0');
-        //    //$('#requestItemError').empty();
-        //}
-
-        //validate order items
+        //validate
         $('#requestItemError').text('');
         var list = [];
         var errorItemCount = 0;
@@ -231,20 +222,29 @@ $(document).ready(function () {
                 //$('select.type', this).val() == "0" ||
                 (parseInt($('.stageNumber', this).val()) || 0) == 0 ||
                 $('.stageTime', this).val() == "" ||
-                isNaN($('.stageTime', this).val())
+                isNaN($('.stageTime', this).val()) ||
+                (($('.stageDate', this).val()) || 0) == 0 ||
+                (String($('.stageDesc', this).val()) || 0) == 0
                 ) {
                 errorItemCount++;
                 $(this).addClass('error');
             } else {
                 var requestItem = {
+
                     StatusID: $('select.status', this).val(),
                     UserID: $('select.user', this).val(),
                     StageNumber: parseInt($('.stageNumber', this).val()),
-                    StageTime: parseFloat($('.stageTime', this).val())
+                    StageTime: parseFloat($('.stageTime', this).val()),
+                    StageDate: ($('.stageDate', this).val()),
+                    StageDesc: String($('.stageDesc', this).val()),
                 }
                 list.push(requestItem);
             }
         })
+
+
+        //---------------------------------------------------------
+
 
         if (errorItemCount > 0) {
             $('#requestItemError').text(errorItemCount + " Nieprawidlowy wpis.");
@@ -309,7 +309,7 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.status) {
                         alert('Zapisane pomyslnie');
-                        //here we will clear the form
+                        //clear the form
                         list = [];
                         $('#title,#requestDate,#description,#client,#type').val('');
                         $('#requestdetailsItems').empty();
@@ -334,3 +334,21 @@ LoadUser($('#user'));
 LoadStatus($('#status'));
 LoadClient($('#client'));
 LoadType($('#type'));
+
+// -----------------------------------------------
+
+//if (isAllValid) {
+//    var $newRow = $('#secrow').removeAttr('id');
+//    $('.client', $newRow).val($('#client').val());
+//    $('.type', $newRow).val($('#type').val());
+
+//    //remove id attribute from new clone row
+//    //$('#submit, #client, #type', $newRow).removeAttr('id');
+//    //$('span.error', $newRow).remove();
+//    //append clone row
+//    //$('#requestdetailsItems').append($newRow);
+
+//    //clear select data
+//    //$('#client, #type').val('0');
+//    //$('#requestItemError').empty();
+//}

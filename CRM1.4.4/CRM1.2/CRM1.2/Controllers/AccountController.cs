@@ -45,6 +45,7 @@ namespace CRM1._2.Controllers
             }
         }
 
+        [Authorize(Roles = "A")]
         public ActionResult Index(int page = 1, string sort = "FirstName", string sortdir = "asc", string search = "")
         {
             int pageSize = 10;
@@ -80,6 +81,7 @@ namespace CRM1._2.Controllers
             }
         }
 
+        [Authorize(Roles = "A")]
         //rejestracja get
         public ActionResult Register(int ?id)
         {
@@ -132,6 +134,7 @@ namespace CRM1._2.Controllers
             return View();
         }
 
+        [Authorize(Roles = "A")]
         [HttpGet]
         public ActionResult Delete(int id)
         {

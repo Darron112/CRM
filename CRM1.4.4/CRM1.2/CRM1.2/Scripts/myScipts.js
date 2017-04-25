@@ -288,12 +288,38 @@ $(document).ready(function () {
             $('#type').siblings('span.error').css('visibility', 'hidden');
         }
 
+        if ($('#description').val().trim() == '') {
+            $('#description').siblings('span.error').css('visibility', 'visible');
+            isAllValid = false;
+        }
+        else {
+            $('#description').siblings('span.error').css('visibility', 'hidden');
+        }
+
+        if ($('#solution').val().trim() == '') {
+            $('#solution').siblings('span.error').css('visibility', 'visible');
+            isAllValid = false;
+        }
+        else {
+            $('#solution').siblings('span.error').css('visibility', 'hidden');
+        }
+
+        if ($('#requestTime').val().trim() == '') {
+            $('#requestTime').siblings('span.error').css('visibility', 'visible');
+            isAllValid = false;
+        }
+        else {
+            $('#requestTime').siblings('span.error').css('visibility', 'hidden');
+        }
+
         if (isAllValid) {
             var data = {
                 //RequestDetailsID: $('requestDetailsID').val().trim(),
                 Title: $('#title').val().trim(),
                 RequestDateString: $('#requestDate').val().trim(),
                 Description: $('#description').val().trim(),
+                Solution: $('#solution').val().trim(),
+                RequestTime: $('#requestTime').val().trim(),
                 ClientID: $('#client').val(),
                 TypeID: $('#type').val(),
                 RequestDetails: list
@@ -311,7 +337,7 @@ $(document).ready(function () {
                         alert('Zapisane pomyslnie');
                         //clear the form
                         list = [];
-                        $('#title,#requestDate,#description,#client,#type').val('');
+                        $('#title,#requestDate,#description,#client,#type, #solution, #requestTime').val('');
                         $('#requestdetailsItems').empty();
                     }
                     else {

@@ -18,31 +18,44 @@
                 <td>Data zgloszenia</td>
                 <td>
                     <input type="text" id="requestDate" class="form-control" />
-                    <span class="error">Poprawna data jest wymagana(np: MM-dd-yyyy)</span>
+                    <span class="error">Wybierz datę zgłoszenia!</span>
                 </td>
             </tr>
+            <tr>
+                <td>Klient</td>
+                <td>
+                    <select id="client" class="form-control" onchange="LoadClient(this)">
+                        <option>Wybierz</option>
+                    </select>
+                    <span class="error">Wybierz klienta!</span>
+                </td>
+                <td>Rodzaj</td>
+                <td>
+                    <select id="type" class="form-control" onchange="LoadType(this)">
+                        <option>Wybierz</option>
+                    </select>
+                    <span class="error">Wybierz rodzaj!</span>
+                </td>
+            </tr>  
             <tr>
                 <td>Opis</td>
                 <td colspan="3"> 
                     <textarea id="description" class="form-control"></textarea>
+                    <span class="error">Podaj opis zgloszenia</span>
                 </td>
-            </tr>  
-                <tr>
-                    <td>Klient</td>
-                    <td>
-                        <select id="client" class="form-control" onchange="LoadClient(this)">
-                            <option>Wybierz</option>
-                        </select>
-                        <span class="error">Wybierz klienta!</span>
-                    </td>
-                    <td>Rodzaj</td>
-                    <td>
-                        <select id="type" class="form-control" onchange="LoadType(this)">
-                            <option>Wybierz</option>
-                        </select>
-                        <span class="error">Wybierz rodzaj!</span>
-                    </td>
-                </tr>                        
+                <td>Rozwiązanie</td>
+                <td colspan="3">
+                    <textarea id="solution" class="form-control"></textarea>
+                    <span class="error">Podaj finalne rozwiazanie</span>
+                </td>
+            </tr> 
+            <tr>
+                <td>Czas lacznie</td>
+                <td>
+                    <input type="text" id="requestTime" class="form-control" style="width:80px" />
+                    <span class="error">Podaj laczy czas</span>
+                </td>
+            </tr>                                 
         </table> 
     </div>
     <div class="details">
@@ -51,13 +64,23 @@
         </h2>
         <table class="table table-responsive">
             <tr>
+                <td>Numer etapu</td>
+                <td>Data</td>
                 <td>Uzytkownik</td>
                 <td>Status</td>
-                <td>Numer etapu</td>
+                <td>Opis etapu</td>
                 <td>Czas etapu</td>
                 <td>&nbsp;</td>
             </tr>
-            <tr class="mycontainer" id="mainrow">                
+            <tr class="mycontainer" id="mainrow">    
+                <td>
+                    <input type="text" id="stageNumber" class="stageNumber form-control" style="width:80px" />
+                    <span class="error">Wpisz numer etapu!</span>
+                </td>   
+                <td>
+                    <input type="text" id="stageDate" class="stageDate form-control" width="80"/>
+                    <span class="error">Wybierz datę etapu!</span>
+                </td>          
                 <td>
                     <select id="user" class="user form-control" onchange="LoadUser(this)">
                         <option>Wybierz</option>
@@ -71,11 +94,11 @@
                     <span class="error">Wybierz status!</span>
                 </td>
                 <td>
-                    <input type="text" id="stageNumber" class="stageNumber form-control" />
-                    <span class="error">Wpisz numer etapu!</span>
-                </td>
+                    <textarea type="text" id="stageDesc" class="stageDesc form-control" style="height:80px; width:300px"></textarea>
+                    <span class="error">Opisz etap!</span>
+                </td> 
                 <td>
-                    <input type="text" id="stageTime" class="stageTime form-control" />
+                    <input type="text" id="stageTime" class="stageTime form-control" style="width:80px" />
                     <span class="error">Wpisz czas wykonywania etapu!</span>
                 </td>
                 <td>
@@ -92,7 +115,7 @@
         </div>         
     </div>
     <p>
-        @Html.ActionLink("Lista zgloszen", "/Index")
+        @Html.ActionLink("Lista zgloszen", "Index")
     </p>
 </div>
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
@@ -105,6 +128,14 @@
         $('#requestDate').datepicker({
             dateFormat: 'mm-dd-yy'
         })        
+    })
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $('#stageDate').datepicker({
+            dateFormat: 'mm-dd-yy'
+        })
     })
 </script>
 

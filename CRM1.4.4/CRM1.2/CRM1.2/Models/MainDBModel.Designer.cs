@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Darron\Documents\Visual Studio 2015\Projects\CRM1.4.2.1\CRM1.2\CRM1.2\Models\MainDBModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Darron\Desktop\GitHub\CRM\CRM1.4.4\CRM1.2\CRM1.2\Models\MainDBModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

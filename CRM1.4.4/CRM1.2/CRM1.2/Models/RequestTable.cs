@@ -22,13 +22,15 @@ namespace CRM1._2.Models
     
         public int RequestID { get; set; }
         public System.DateTime RequestDate { get; set; }
-        public string RequestDateString { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Solution { get; set; }
+        public string RequestDateString { get; set; }
         public Nullable<int> RequestTime { get; set; }
         public Nullable<int> ClientID { get; set; }
         public Nullable<int> TypeID { get; set; }
+        public Nullable<int> StatusID { get; set; }
+        public Nullable<int> UserID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RequestDetail> RequestDetails { get; set; }

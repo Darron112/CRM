@@ -30,14 +30,14 @@ namespace CRM1._2.Controllers
             {
                 
                 var v = (from a in dc.RequestTables                         
-                         where
-                                    
+                         where                                  
                                   a.RequestID.ToString().Contains(search) ||
                                   a.RequestDate.ToString().Contains(search) ||
                                   a.Title.Contains(search) ||
                                   a.ClientID.ToString().Contains(search) ||
                                   a.TypeID.ToString().Contains(search) ||
-                                  a.Description.Contains(search)
+                                  a.StatusID.ToString().Contains(search) ||
+                                  a.UserID.ToString().Contains(search)
                          select a
                                 );
                 totalRecord = v.Count();
@@ -119,7 +119,7 @@ namespace CRM1._2.Controllers
                 using (MainDBEntities mainDB = new MainDBEntities())
                 {
                     //var isValidModel = TryUpdateModel(request);
-                    if (request.RequestID > 0 /*|| rd.RequestDetailsID > 0*/)
+                    if (request.RequestID > 0 /*|| request.StatusID == 1*/)
                     {
                         //edycja
                         var s = mainDB.RequestTables.Where(a => a.RequestID == request.RequestID).FirstOrDefault();                          
@@ -128,11 +128,12 @@ namespace CRM1._2.Controllers
                             s.RequestID = request.RequestID;
                             s.RequestDate = request.RequestDate;
                             s.Title = request.Title;
-                            //s.Status = request.Status;
-                            //s.Type = request.Type;
+                            s.ClientID = request.ClientID;
+                            s.TypeID = request.TypeID;
+                            s.StatusID = request.StatusID;
+                            s.UserID = request.UserID;
                             s.Description = request.Description;
                         }
-
                     }
                     else /*if(isValidModel)*/
                     {

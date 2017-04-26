@@ -41,6 +41,8 @@
           <Property Name="RequestTime" Type="int" />
           <Property Name="ClientID" Type="int" />
           <Property Name="TypeID" Type="int" />
+          <Property Name="StatusID" Type="int" />
+          <Property Name="UserID" Type="int" />
         </EntityType>
         <EntityType Name="StatusTable">
           <Key>
@@ -146,6 +148,8 @@
           <NavigationProperty Name="RequestDetails" Relationship="MainDBModel.FK_OrderDetails_OrderMaster" FromRole="RequestTable" ToRole="RequestDetail" />
           <Property Name="ClientID" Type="Int32" />
           <Property Name="TypeID" Type="Int32" />
+          <Property Name="StatusID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
         </EntityType>
         <EntityType Name="RequestDetail">
           <Key>
@@ -222,6 +226,8 @@
           <EntitySetMapping Name="RequestTables">
             <EntityTypeMapping TypeName="MainDBModel.RequestTable">
               <MappingFragment StoreEntitySet="RequestTable">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
                 <ScalarProperty Name="TypeID" ColumnName="TypeID" />
                 <ScalarProperty Name="ClientID" ColumnName="ClientID" />
                 <ScalarProperty Name="RequestTime" ColumnName="RequestTime" />

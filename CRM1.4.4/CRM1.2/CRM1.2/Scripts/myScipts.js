@@ -312,6 +312,22 @@ $(document).ready(function () {
             $('#requestTime').siblings('span.error').css('visibility', 'hidden');
         }
 
+        if ($('#userr').val() == "0") {
+            isAllValid = false;
+            $('#userr').siblings('span.error').css('visibility', 'visible');
+        }
+        else {
+            $('#userr').siblings('span.error').css('visibility', 'hidden');
+        }
+
+        if ($('#statuss').val() == "0") {
+            isAllValid = false;
+            $('#statuss').siblings('span.error').css('visibility', 'visible');
+        }
+        else {
+            $('#statuss').siblings('span.error').css('visibility', 'hidden');
+        }
+
         if (isAllValid) {
             var data = {
                 //RequestDetailsID: $('requestDetailsID').val().trim(),
@@ -322,6 +338,9 @@ $(document).ready(function () {
                 RequestTime: $('#requestTime').val().trim(),
                 ClientID: $('#client').val(),
                 TypeID: $('#type').val(),
+                StatusID: $('#statuss').val(),
+                UserID: $('#userr').val(),
+
                 RequestDetails: list
             }
 
@@ -337,7 +356,7 @@ $(document).ready(function () {
                         alert('Zapisane pomyslnie');
                         //clear the form
                         list = [];
-                        $('#title,#requestDate,#description,#client,#type, #solution, #requestTime').val('');
+                        $('#title,#requestDate,#description,#client,#type,#solution,#requestTime,#statuss,#userr').val('');
                         $('#requestdetailsItems').empty();
                     }
                     else {
@@ -360,6 +379,8 @@ LoadUser($('#user'));
 LoadStatus($('#status'));
 LoadClient($('#client'));
 LoadType($('#type'));
+LoadUser($('#userr'));
+LoadStatus($('#statuss'));
 
 // -----------------------------------------------
 

@@ -36,6 +36,8 @@
     <Property Name="RequestTime" Type="int" />
     <Property Name="ClientID" Type="int" />
     <Property Name="TypeID" Type="int" />
+    <Property Name="StatusID" Type="int" />
+    <Property Name="UserID" Type="int" />
   </EntityType>
   <EntityType Name="StatusTable">
     <Key>

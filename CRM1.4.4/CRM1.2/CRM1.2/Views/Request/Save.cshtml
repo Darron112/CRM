@@ -38,6 +38,22 @@
                 </td>
             </tr>  
             <tr>
+                <td>Status</td>
+                <td>
+                    <select id="statuss" class="form-control" onchange="LoadStatus(this)">
+                        <option>Wybierz</option>
+                    </select>
+                    <span class="error">Wybierz status!</span>
+                </td>
+                <td>Użytkownik</td>
+                <td>
+                    <select id="userr" class="form-control" onchange="LoadUser(this)">
+                        <option>Wybierz</option>
+                    </select>
+                    <span class="error">Wybierz użytkownika!</span>
+                </td>
+            </tr>  
+            <tr>
                 <td>Opis</td>
                 <td colspan="3"> 
                     <textarea id="description" class="form-control"></textarea>

@@ -1,0 +1,216 @@
+﻿@model CRM1._2.ViewModel.RequestEditViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+<head>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+</head>
+<h2>Zgloszenie</h2>
+@using (Html.BeginForm("RequestEdit", "Request", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(x => x.RequestID)
+    @Html.HiddenFor(x => x.CompanyName)
+    @Html.HiddenFor(x => x.Type)
+    @Html.HiddenFor(x => x.User)
+    <div class="container">
+        <div class="master">
+            <h2>Informacje ogolne</h2>
+            <table class="table table-responsive">
+                <tr>
+                    <td>Tytul</td>
+                    <td>
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form -control" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </td>
+                    <td>Data zgloszenia</td>
+                    <td>
+                        @Html.EditorFor(model => model.RequestDate, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.RequestDate, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>Klient</td>
+                    <td>
+                        @Html.LabelFor(model => model.CompanyName, @Model.CompanyName)
+                    </td>
+                    <td>Rodzaj</td>
+                    <td>
+                        @Html.LabelFor(model => model.Type, @Model.Type)
+                    </td>
+                </tr>
+                <tr>
+                    <td>Status</td>
+                    <td>
+                        @Html.DropDownListFor(@Model => @Model.StatusId, new SelectList(Model.Statuses, "StatusId", "StatusName"))
+                        @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger" })
+                    </td>
+                    <td>Użytkownik</td>
+                    <td>
+                        @Html.LabelFor(model => model.User, @Model.User)
+                    </td>
+                </tr>
+                <tr>
+                    <td>Opis</td>
+                    <td colspan="3">
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </td>
+                    <td>Rozwiązanie</td>
+                    @Html.LabelFor(model => model.User)
+                    <td colspan="3">
+                        @Html.TextAreaFor(model => model.Solution, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Solution, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>Czas lacznie</td>
+                    <td>
+                        @Html.EditorFor(model => model.RequestTime, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.RequestTime, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="details">
+            <h2>
+                Etapy zgloszenia
+            </h2>
+            <table class="table table-responsive">
+                <tr>
+                    <td>Numer etapu</td>
+                    <td>Data</td>
+                    <td>Uzytkownik</td>
+                    <td>Status</td>
+                    <td>Opis etapu</td>
+                    <td>Czas etapu</td>
+                </tr>
+                @foreach (var item in Model.Details)
+                {
+                    <tr class="mycontainer" id="mainrow">
+                        <td>
+                            @item.StageNumber
+                        </td>
+                        <td>
+                            @item.StageDate
+                        </td>
+                        <td>
+                            @item.UserName
+                        </td>
+                        <td>
+                            @item.Status
+                        </td>
+                        <td>
+                            @item.StageDesc
+                        </td>
+                        <td>
+                            @item.StageTime
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        @*<div class="details">
+            <h2>
+                Etapy zgloszenia
+            </h2>
+            <table class="table table-responsive">
+                <tr>
+                    <td>Numer etapu</td>
+                    <td>Data</td>
+                    <td>Uzytkownik</td>
+                    <td>Status</td>
+                    <td>Opis etapu</td>
+                    <td>Czas etapu</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr class="mycontainer" id="mainrow">
+                    <td>
+                        <input type="text" id="stageNumber" class="stageNumber form-control" style="width:80px" />
+                        <span class="error">Wpisz numer etapu!</span>
+                    </td>
+                    <td>
+                        <input type="text" id="stageDate" class="stageDate form-control" width="80" />
+                        <span class="error">Wybierz datę etapu!</span>
+                    </td>
+                    <td>
+                        <select id="user" class="user form-control" onchange="LoadUser(this)">
+                            <option>Wybierz</option>
+                        </select>
+                        <span class="error">Wybierz uzytkownika!</span>
+                    </td>
+                    <td>
+                        <select id="status" class="status form-control" onchange="LoadStatus(this)">
+                            <option>Wybierz</option>
+                        </select>
+                        <span class="error">Wybierz status!</span>
+                    </td>
+                    <td>
+                        <textarea type="text" id="stageDesc" class="stageDesc form-control" style="height:80px; width:300px"></textarea>
+                        <span class="error">Opisz etap!</span>
+                    </td>
+                    <td>
+                        <input type="text" id="stageTime" class="stageTime form-control" style="width:80px" />
+                        <span class="error">Wpisz czas wykonywania etapu!</span>
+                    </td>
+                    <td>
+                        <input type="button" id="add" value="Dodaj" style="width:80px" class="btn btn-success" />
+                    </td>
+                </tr>
+            </table>
+            <div id="requestItem">
+                <table class="table table-responsive" id="requestdetailsItems"></table>
+                <span id="requestItemError" style="color:red"></span>
+            </div>*@
+        <div style="padding:10px 0; text-align:right">
+            <input id="submit" type="submit" value="Zapisz zgloszenie" class="btn btn-warning" style="padding:10px 20px" />
+        </div>
+        @*</div>*@
+        <p>
+            @Html.ActionLink("Lista zgloszen", "Index")
+        </p>
+    </div>
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="~/Scripts/myScipts.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $('#requestDate').datepicker({
+            dateFormat: 'mm-dd-yy'
+        })
+    })
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $('#stageDate').datepicker({
+            dateFormat: 'mm-dd-yy'
+        })
+    })
+</script>
+
+@*<script type="text/javascript">
+        $(function () {
+            $('#stageDate').datepicker({
+                dateFormat: 'mm-dd-yy'
+            })
+        })
+    </script>*@
+
+<style>
+    span.error {
+        display: block;
+        visibility: hidden;
+        color: red;
+        font-size: 90%;
+    }
+
+    tr.error {
+        background-color: rgba(255,0,0,0.35);
+    }
+</style>

@@ -44,7 +44,7 @@
              grid.Column(columnName: "TypeID", header: "Rodzaj"),
              grid.Column(columnName: "StatusID", header: "Status"),
              grid.Column(columnName: "UserID", header: "Użytkownik"),
-             grid.Column(header: "Edycja", format: item => new HtmlString(Html.ActionLink((string)item.RequestID.ToString("Edytuj"),"save", new { @id = item.RequestID }).ToString())),
+             grid.Column(header: "Edycja", format: item => new HtmlString(Html.ActionLink((string)item.RequestID.ToString("Edytuj"), "RequestEdit", new { @requestId = item.RequestID }).ToString())),
              grid.Column(header: "Usuwanie", format: item => new HtmlString(Html.ActionLink((string)item.RequestID.ToString("Usun"), "delete", new { @id = item.RequestID }).ToString()))
 
                 )

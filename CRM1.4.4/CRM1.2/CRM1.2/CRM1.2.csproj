@@ -295,6 +295,10 @@
     </Compile>
     <Compile Include="MyRolesProvider.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\DetailsViewModel.cs" />
+    <Compile Include="ViewModel\RequestClientViewModel.cs" />
+    <Compile Include="ViewModel\RequestEditViewModel.cs" />
+    <Compile Include="ViewModel\StatusViewModel.cs" />
     <Compile Include="WebGridExtensions.cs" />
     <Compile Include="Models\FirstDbContext.cs" />
     <Compile Include="Models\MainDBModel.Context.cs">
@@ -360,6 +364,7 @@
     <Content Include="Views\Type\Index.cshtml" />
     <Content Include="Views\Type\Save.cshtml" />
     <Content Include="Views\Type\Delete.cshtml" />
+    <Content Include="Views\Request\RequestEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

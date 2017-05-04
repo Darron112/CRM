@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Linq.Dynamic;
 using System.Web.Security;
+using CRM1._2.ViewModel;
 
 namespace CRM1._2.Controllers
 {
@@ -28,9 +29,9 @@ namespace CRM1._2.Controllers
         {
             using (MainDBEntities dc = new MainDBEntities())
             {
-                
-                var v = (from a in dc.RequestTables                         
-                         where                                  
+
+                var v = (from a in dc.RequestTables
+                         where
                                   a.RequestID.ToString().Contains(search) ||
                                   a.RequestDate.ToString().Contains(search) ||
                                   a.Title.Contains(search) ||
@@ -45,7 +46,7 @@ namespace CRM1._2.Controllers
                 if (pageSize > 0)
                 {
                     v = v.Skip(skip).Take(pageSize);
-                    
+
                 }
                 return v.ToList();
             }
@@ -122,7 +123,7 @@ namespace CRM1._2.Controllers
                     if (request.RequestID > 0 /*|| request.StatusID == 1*/)
                     {
                         //edycja
-                        var s = mainDB.RequestTables.Where(a => a.RequestID == request.RequestID).FirstOrDefault();                          
+                        var s = mainDB.RequestTables.Where(a => a.RequestID == request.RequestID).FirstOrDefault();
                         if (s != null)
                         {
                             s.RequestID = request.RequestID;
@@ -142,12 +143,12 @@ namespace CRM1._2.Controllers
                         //mainDB.RequestDetails.Add(rd);
                     }
                     mainDB.SaveChanges();
-                    status = true;                  
+                    status = true;
                 }
             }
 
             RedirectToAction("index", "Request");
-            return new JsonResult { Data = new { status = status } };         
+            return new JsonResult { Data = new { status = status } };
         }
 
         [HttpGet]
@@ -193,6 +194,87 @@ namespace CRM1._2.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Account");
 
+        }
+
+        public ActionResult RequestEdit(int? requestId)
+        {
+            using (MainDBEntities mainDB = new MainDBEntities())
+            {
+                var requstResult = mainDB.RequestTables.FirstOrDefault(a => a.RequestID == requestId);
+                var viewModel = new RequestEditViewModel(requstResult);
+                viewModel.GetCompany(mainDB.ClientTables.FirstOrDefault(x => x.ClientID == requstResult.ClientID));
+                viewModel.GetType(mainDB.TypeTables.FirstOrDefault(x => x.TypeID == requstResult.TypeID));
+                viewModel.GetStatus(mainDB.StatusTables.FirstOrDefault(x => x.StatusID == requstResult.StatusID));
+                viewModel.GetUser(mainDB.UserAccounts.FirstOrDefault(x => x.UserID == requstResult.UserID));
+                var statuses = mainDB.StatusTables.ToArray();
+                viewModel.GetStatuses(statuses);
+                var detailsList = requstResult.RequestDetails.Select(x => new DetailsViewModel
+                {
+                    StageNumber = x.StageNumber,
+                    StageDate = x.StageDate.Value.ToShortDateString(),
+                    StageDesc = x.StageDesc,
+                    StageTime = x.StageTime,
+                    Status = statuses.FirstOrDefault(y => y.StatusID == x.StatusID).StatusName,
+                    UserName = mainDB.UserAccounts.FirstOrDefault(y => x.UserID == requstResult.UserID).UserName
+                }).ToArray();
+                viewModel.Details = detailsList;
+
+                return View(viewModel);
+            }
+        }
+
+        [HttpPost]
+        [ActionName("RequestEdit")]
+        [ValidateAntiForgeryToken]
+        public ActionResult RequestEditPOST(RequestEditViewModel dupa)
+        {
+            ActionResult actionResult;
+            var tmp = dupa;
+
+            if (ModelState.IsValid)
+            {
+                using (MainDBEntities mainDB = new MainDBEntities())
+                {
+                    var requstResult = mainDB.RequestTables.FirstOrDefault(a => a.RequestID == dupa.RequestID);
+
+                    if (requstResult != null)
+                    {
+                        requstResult.Title = dupa.Title;
+                        requstResult.RequestDate = dupa.RequestDate;
+                        requstResult.StatusID = dupa.StatusId;
+                        requstResult.Description = dupa.Description;
+                        requstResult.RequestTime = dupa.RequestTime;
+                        requstResult.Solution = dupa.Solution;
+                    }
+
+                    mainDB.SaveChanges();
+                }
+
+                actionResult = RedirectToAction("Index");
+            }
+            else
+            {
+                using (MainDBEntities mainDB = new MainDBEntities())
+                {
+                    var statuses = mainDB.StatusTables.ToArray();
+                    dupa.GetStatuses(statuses);
+                    var requstResult = mainDB.RequestTables.FirstOrDefault(a => a.RequestID == dupa.RequestID);
+                    var detailsList = requstResult.RequestDetails.Select(x => new DetailsViewModel
+                    {
+                        StageNumber = x.StageNumber,
+                        StageDate = x.StageDate.Value.ToShortDateString(),
+                        StageDesc = x.StageDesc,
+                        StageTime = x.StageTime,
+                        Status = statuses.FirstOrDefault(y => y.StatusID == x.StatusID).StatusName,
+                        UserName = mainDB.UserAccounts.FirstOrDefault(y => x.UserID == requstResult.UserID).UserName
+                    }).ToArray();
+                    dupa.Details = detailsList;
+                }
+
+                actionResult = View("RequestEdit", dupa);
+            }
+
+            return actionResult;
         }
     }
 }
